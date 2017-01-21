@@ -2921,31 +2921,34 @@ footer .footer-top h3 {
 #support .vc_col-sm-4  .custom-header h4 {
 	color: #fff;
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 13.8px;
 	text-transform: uppercase;
 	line-height: 23px;
 	text-align: left;
 	letter-spacing: -.02em;
+	background: url(img/icon-edu.png) no-repeat left;
+	background-size: 29px;
+    padding-left: 36px;
 }
-#support .vc_col-sm-4  .custom-header:after {
+#support .vc_col-sm-4:last-child  .custom-header h4 {
+	background-image: url(img/icon-fm.png);
+	background-size: 20px 24px;
+	padding-left: 31px;
+	background-position: 3px;
+}
+#support .vc_col-sm-4:first-child  .custom-header h4 {
+	background-image: url(img/icon-set.png);
+	    background-size: 23px;
+    background-position: 2px;
+}
+/*#support .vc_col-sm-4  .custom-header:after {
 	content: "";
 	position: absolute;
-	left: 13px;
+	left: 0;
 	border-left: 13px solid transparent;
 	border-right: 13px solid transparent;
-	border-top: 13px solid #f69435;
-}
-#support .vc_col-sm-4  .custom-header:before {
-	position: absolute;
-	bottom: -3px;
-	border-bottom: 3px solid #f69435;
-	left: 0;
-	width: 0;
-	content: "";
-	-webkit-transition: all .4s;
-	-moz-transition: all .4s;
-	transition: all .4s;
-}
+	border-top: 13px solid #fff;
+}*/
 #support .vc_col-sm-4:hover  .custom-header:before {
 	width: 100%;
 }
@@ -2953,6 +2956,7 @@ footer .footer-top h3 {
 	letter-spacing: -0.025em;
 	line-height: 26px;
 	list-style-type: none;
+	padding-left: 25px;
 }
 #support .vc_col-sm-4  ul li {
 	position: relative;
@@ -2962,13 +2966,13 @@ footer .footer-top h3 {
 	content: "";
 	width: 7px;
 	height: 7px;
-	background: #f69435;
+	background: #fff;
 	left: -17px;
 	top: 9px;
-	-webkit-transform: rotate(-45deg);
+	/*-webkit-transform: rotate(-45deg);
 	transform: rotate(-45deg);
 	-webkit-transition: all .4s;
-	transition: all .4s;
+	transition: all .4s;*/
 }
 .footer-top .fa {
 	color: #fac42b;
@@ -3064,6 +3068,16 @@ footer .footer-top h3 {
 	background-image: url('img/pn4-l.png');
 }
 
+.partner-tt.tt-2 {
+	font-size: 37px;
+}
+.partner-tt.tt-3 {
+    font-size: 33px;
+}
+.partner-tt.tt-4 {
+    font-size: 31px;
+}
+
 /* Q&A css */
 
 #post-1600 .dwqa-question-filter .dwqa-sort-by,
@@ -3136,7 +3150,7 @@ footer .footer-top h3 {
 }
 /*footer*/
 .footer-top .fa {
-    color: #fb8b00;
+    color: #409bdb;
 }
 .footer-top .zoom-social-icons-list--rounded .socicon,
 .footer-top .zoom-social-icons-list--rounded .fa {
@@ -3153,8 +3167,12 @@ footer .footer-top h3 {
 	opacity: 1;
 }
 
+.navbar-custom .navbar-nav > li > a:hover::after, .navbar-custom .navbar-nav > li > a:focus::after {
+	background: rgba(41, 163, 220, 0.63);
+}
+
 #footer h4:after {
-    background-color: #328ccb !important;
+    background-color: #a9d35b !important;
 }
 /*program*/
 #program {
@@ -3181,7 +3199,7 @@ footer .footer-top h3 {
 	color: #fff !important;
 }
 #program .panel-body p span {
-	color: #29a4dd;
+	color: #66cfff;
 }
 #program .panel-default,
 #program .nav-tabs,
@@ -3220,8 +3238,8 @@ footer .footer-top h3 {
 	padding-top: 160px;
 }
 .venue .vc_column-inner{
-	background-color: rgba(0, 0, 0, 0.4);
-	background-blend-mode: color;
+	/*background-color: rgba(0, 0, 0, 0.4);
+	background-blend-mode: color;*/
 }
 /*register*/
 #register .price-table .price {
@@ -3540,6 +3558,10 @@ div.wpcf7-validation-errors {
 	clear: both;
 }
 
+.pe-7s-photo {
+	margin-top: 2px;
+}
+
 /*single-post*/
 .single-post .breadcrumbs {
 	margin-bottom: 8px;
@@ -3558,6 +3580,69 @@ div.wpcf7-validation-errors {
 	filter: none;
 	-webkit-filter: grayscale(0);
 	opacity: 1;
+}
+
+.widget_newsletterwidget form {
+	display: block;
+	position: relative;
+}
+.widget_newsletterwidget .tnp-field-button {
+	position: absolute;
+	right: 1px;
+	top: 29px;
+	width: 100px;
+}
+.widget_newsletterwidget .tnp-field input[type="submit"]{
+	background: #328ccb;
+	border: 0;
+}
+.widget_newsletterwidget .tnp-field input[type="submit"]:hover{
+	background: #fb8b00;
+}
+/*page-template-page-nosidebar */
+.page-template-page-nosidebar:not(.page-id-1610) .container .container,
+.page-template-page-nosidebar:not(.page-id-1610) .container .vc_column-inner,
+.page-template-page-nosidebar:not(.page-id-1610) .container .col-sm-12  {
+	padding: 0;
+}
+.page-template-page-nosidebar:not(.page-id-1610) .container .custom-header h1 {
+	margin: 28px 0 33px;
+	text-align: left;
+}
+.page-template-page-nosidebar:not(.page-id-1610) section {
+	padding-top: 0;
+	padding-bottom: 30px;
+}
+.page-template-page-nosidebar:not(.page-id-1610) .wpb_content_element img {
+	margin-bottom: 20px !important;
+	height: auto;
+	width: 100%;
+	max-width: 935px !important;
+}
+.page-template-page-nosidebar:not(.page-id-1610) .wpb_content_element p img {
+	margin-bottom: 0 !important;
+}
+.page-template-page-nosidebar:not(.page-id-1610) .wpb_content_element h3 ,
+.page-template-page-nosidebar:not(.page-id-1610) .wpb_content_element h2 {
+	font-size: 20px;
+	letter-spacing: normal;
+	font-weight: 500;
+    margin: 30px 0 15px;
+}
+.page-template-page-nosidebar:not(.page-id-1610) .wpb_content_element iframe  {
+	width: 100%;
+	max-width: 935px;
+}
+
+#sponsors .vc_row:nth-child(3) .lshowcase-boxInner-normal{
+	width: 300px !important;
+	margin: 0 30px;
+}
+#sponsors .vc_row:nth-child(3) .lshowcase-boxInner-normal img {
+	width: 100%;
+}
+.ls-crowdfunding .lshowcase-wrap-responsive img {
+    max-width: 156px;
 }
 /*Reponsive*/
 @media screen and (min-width: 768px) {
@@ -3622,6 +3707,11 @@ div.wpcf7-validation-errors {
 @media screen and (max-width: 1199px) {
 	footer .footer-top h3 {
 		font-size: 22px;
+	}
+
+	#organize .custom-header h4 {
+		min-height: 50px;
+    	line-height: 25px;
 	}
 }
 @media screen and (max-width: 940px) {
@@ -3736,6 +3826,22 @@ div.wpcf7-validation-errors {
 	.post-1610 .vc_col-sm-4 {
 		padding-top: 12px;
 	}
+	.partner-tt {
+		margin: 0 66px;
+	}
+	#organize .custom-header h4 {
+		min-height: inherit;
+		margin-top: 27px;
+	}
+	.partner-tt.tt-2 {
+	    font-size: 30px;
+	}
+	.partner-tt.tt-3 {
+	    font-size: 27px;
+	}
+	.partner-tt.tt-4 {
+	    font-size: 24px;
+	}
 }
 @media screen and (max-width: 479px) {
 	#funfacts .vc_col-sm-3 {
@@ -3799,6 +3905,7 @@ div.wpcf7-validation-errors {
 	}
 	#gallery .column {
 		float: none;
+		width: 100%;
 	}
 	#timeline .item {
 		padding-top: 33%;
