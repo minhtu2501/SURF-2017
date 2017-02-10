@@ -4,7 +4,7 @@
   Plugin Name: Newsletter
   Plugin URI: http://www.thenewsletterplugin.com/plugins/newsletter
   Description: Newsletter is a cool plugin to create your own subscriber list, to send newsletters, to build your business. <strong>Before update give a look to <a href="http://www.thenewsletterplugin.com/category/release">this page</a> to know what's changed.</strong>
-  Version: 4.7.5
+  Version: 4.7.9
   Author: Stefano Lissa & The Newsletter Team
   Author URI: http://www.thenewsletterplugin.com
   Disclaimer: Use at your own risk. No warranty expressed or implied is provided.
@@ -14,7 +14,7 @@
  */
 
 // Used as dummy parameter on css and js links
-define('NEWSLETTER_VERSION', '4.7.5');
+define('NEWSLETTER_VERSION', '4.7.9');
 
 global $wpdb, $newsletter;
 
@@ -126,7 +126,7 @@ class Newsletter extends NewsletterModule {
         if (isset($_POST['na'])) {
             $this->action = $_POST['na'];
         }
-        
+
         if (!empty($this->action)) {
             // For old versions of wp super cache
             $_GET['preview'] = 'true';
@@ -176,7 +176,7 @@ class Newsletter extends NewsletterModule {
                     }
                 }
                 $mean = $mean / count($calls) - 1;
-                update_option('newsletter_diagnostic_cron_data', array('mean'=>$mean, 'max'=>$max, 'min'=>$min), false);
+                update_option('newsletter_diagnostic_cron_data', array('mean' => $mean, 'max' => $max, 'min' => $min), false);
             }
             return;
         }
@@ -205,6 +205,8 @@ class Newsletter extends NewsletterModule {
             add_action('wp_ajax_tnpc_render', 'tnpc_render_callback');
             add_action('wp_ajax_tnpc_preview', 'tnpc_preview_callback');
             add_action('wp_ajax_tnpc_css', 'tnpc_css_callback');
+
+            add_action('admin_menu', array($this, 'add_extensions_menu'), 90);
         }
     }
 
@@ -368,10 +370,16 @@ class Newsletter extends NewsletterModule {
 
         $this->add_menu_page('index', 'Dashboard');
         $this->add_menu_page('main', 'Settings and More');
+
         $this->add_admin_page('smtp', 'SMTP');
+        $this->add_admin_page('status', 'Status');
         $this->add_admin_page('info', 'Company info');
         $this->add_admin_page('diagnostic', 'Diagnostic');
         $this->add_admin_page('startup', 'Quick Startup');
+    }
+
+    function add_extensions_menu() {
+        $this->add_menu_page('extensions', '<span style="color:#27AE60; font-weight: bold;">Extensions</span>');
     }
 
     /**
@@ -402,12 +410,17 @@ class Newsletter extends NewsletterModule {
     function hook_init() {
         global $cache_stop, $hyper_cache_stop, $wpdb;
 
+        if (isset($this->options['debug']) && $this->options['debug'] == 1) {
+            ini_set('log_errors', 1);
+            ini_set('error_log', WP_CONTENT_DIR . '/logs/newsletter/php-' . date('Y-m') . '-' . get_option('newsletter_logger_secret') . '.txt');
+        }
+
         if (is_admin()) {
             if ($this->is_admin_page()) {
                 wp_enqueue_script('jquery-ui-tabs');
-                wp_enqueue_script('media-upload');
-                wp_enqueue_script('thickbox');
-                wp_enqueue_style('thickbox');
+                //wp_enqueue_script('media-upload');
+                //wp_enqueue_script('thickbox');
+                //wp_enqueue_style('thickbox');
                 wp_enqueue_media();
 
                 $dismissed = get_option('newsletter_dismissed', array());
@@ -442,6 +455,11 @@ class Newsletter extends NewsletterModule {
             $options_followup = get_option('newsletter_followup');
             $this->message = $options_followup['unsubscribed_text'];
             return;
+        }
+
+        if ($action == 'test') {
+            echo 'ok';
+            die();
         }
     }
 
@@ -505,7 +523,7 @@ class Newsletter extends NewsletterModule {
     }
 
     /**
-     * Sends an email to targeted users ot to users passed on. If a list of users is given (usually a list of test users)
+     * Sends an email to targeted users or to given users. If a list of users is given (usually a list of test users)
      * the query inside the email to retrieve users is not used.
      *
      * @global wpdb $wpdb
@@ -517,10 +535,11 @@ class Newsletter extends NewsletterModule {
     function send($email, $users = null) {
         global $wpdb;
 
-        if (is_array($email))
+        if (is_array($email)) {
             $email = (object) $email;
+        }
 
-        // This stops the update of last_id and sent fields since it's not a scheduled delivery but a test.
+        // This stops the update of last_id and sent fields since it's not a scheduled delivery but a test or something else (like an autoresponder)
         $test = $users != null;
 
         if ($users == null) {
@@ -542,7 +561,7 @@ class Newsletter extends NewsletterModule {
                 return true;
             }
         }
-        
+
         $start_time = microtime(true);
         $count = 0;
         $result = true;
@@ -596,12 +615,13 @@ class Newsletter extends NewsletterModule {
             $count++;
         }
         $end_time = microtime(true);
-        
+
         if ($count > 0) {
             $send_calls = get_option('newsletter_diagnostic_send_calls', array());
             $send_calls[] = array($start_time, $end_time, $count, $result);
 
-            if (count($send_calls) > self::MAX_CRON_SAMPLES) array_shift($send_calls);
+            if (count($send_calls) > self::MAX_CRON_SAMPLES)
+                array_shift($send_calls);
 
             update_option('newsletter_diagnostic_send_calls', $send_calls, false);
         }
@@ -949,7 +969,7 @@ class Newsletter extends NewsletterModule {
             list ($id, $token) = @explode('-', $_COOKIE['newsletter'], 2);
         }
 
-        if (is_numeric($id) && !empty($token)) {
+        if (!empty($id) && !empty($token)) {
             return $wpdb->get_row($wpdb->prepare("select * from " . NEWSLETTER_USERS_TABLE . " where id=%d and token=%s limit 1", $id, $token));
         }
 
@@ -1348,6 +1368,32 @@ class Newsletter extends NewsletterModule {
         }
 
         return $value;
+    }
+
+    /**
+     * Retrieve the extensions form the tnp site
+     * @return array 
+     */
+    function getTnpExtensions() {
+
+        $extensions_json = get_transient('tnp_extensions_json');
+
+        if (false === $extensions_json) {
+            $url = "http://www.thenewsletterplugin.com/wp-content/extensions.json";
+            if (!empty($this->options['contract_key'])) {
+                $url = "http://www.thenewsletterplugin.com/wp-content/plugins/file-commerce-pro/extensions.php?k=" . $this->options['contract_key'];
+            }
+
+            $extensions_response = wp_remote_get($url);
+            $extensions_json = wp_remote_retrieve_body($extensions_response);
+            if (!empty($extensions_json)) {
+                set_transient('tnp_extensions_json', $extensions_json, 24 * 60 * 60);
+            }
+        }
+
+        $extensions = json_decode($extensions_json);
+
+        return $extensions;
     }
 
     /**

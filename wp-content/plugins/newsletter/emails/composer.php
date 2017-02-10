@@ -37,6 +37,8 @@ To change your subscription follow: {profile_url}.';
 
     $email['type'] = 'message';
     $email['send_on'] = time();
+    $email['query'] = "select * from " . NEWSLETTER_USERS_TABLE . " where status='C'";
+    
     $email = Newsletter::instance()->save_email($email, ARRAY_A);
 } elseif (isset($_GET['id'])) {
 

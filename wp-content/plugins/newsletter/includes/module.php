@@ -62,6 +62,7 @@ class NewsletterModule {
 
             if ($this->old_version == '0.0.0') {
                 $this->first_install();
+                update_option($this->prefix."_first_install_time", time(), FALSE);
             }
 
             if (strcmp($this->old_version, $this->version) != 0) {
@@ -529,16 +530,6 @@ class NewsletterModule {
 
     function add_menu_page($page, $title) {
         global $newsletter;
-
-//        Why check the plugin dir? I don't remember!
-//        $file = WP_PLUGIN_DIR . '/newsletter-' . $this->module . '/' . $page . '.php';
-//        if (!is_file($file)) {
-//            $file = WP_CONTENT_DIR . '/extensions/newsletter/' . $this->module . '/' . $page . '.php';
-//        }
-//        if (!is_file($file)) {
-//            $file = NEWSLETTER_DIR . '/' . $this->module . '/' . $page . '.php';
-//        }
-
         $name = 'newsletter_' . $this->module . '_' . $page;
         add_submenu_page('newsletter_main_index', $title, $title, ($newsletter->options['editor'] == 1) ? 'manage_categories' : 'manage_options', $name, array($this, 'menu_page'));
     }

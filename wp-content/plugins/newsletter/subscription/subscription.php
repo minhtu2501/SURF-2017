@@ -401,6 +401,7 @@ class NewsletterSubscription extends NewsletterModule {
 
         // Notification to admin (only for new confirmed subscriptions)
         if ($user->status == 'C') {
+            do_action('newsletter_user_confirmed', $user);
             $this->notify_admin($user, 'Newsletter subscription');
             setcookie('newsletter', $user->id . '-' . $user->token, time() + 60 * 60 * 24 * 365, '/');
         }
@@ -555,6 +556,7 @@ class NewsletterSubscription extends NewsletterModule {
         }
 
         if ($user->status == 'C') {
+            do_action('newsletter_user_confirmed', $user);
             return $user;
         }
 
@@ -566,6 +568,7 @@ class NewsletterSubscription extends NewsletterModule {
         setcookie('newsletter', $user->id . '-' . $user->token, time() + 60 * 60 * 24 * 365, '/');
         $newsletter->set_user_status($user->id, 'C');
         $user->status = 'C';
+        do_action('newsletter_user_confirmed', $user);
         $this->notify_admin($user, 'Newsletter subscription');
 
         // Check if is connected to a wp user
@@ -1324,7 +1327,11 @@ class NewsletterSubscription extends NewsletterModule {
         }
 
         if ($referrer != 'widget') {
-            $buffer .= '<div class="tnp tnp-subscription">' . "\n";
+            if (isset($attrs['class'])) {
+                $buffer .= '<div class="tnp tnp-subscription ' . $attrs['class'] . '">' . "\n";
+            } else {
+                $buffer .= '<div class="tnp tnp-subscription">' . "\n";
+            }
         }
         $buffer .= '<form method="post" action="' . esc_attr($action) . '" onsubmit="return newsletter_check(this)">' . "\n\n";
 
