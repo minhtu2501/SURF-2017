@@ -24,6 +24,7 @@ function newsletter_print_entries($group) {
         }
     }
 }
+
 ?>
 
 <div class="tnp-drowpdown" id="tnp-header">
@@ -52,7 +53,7 @@ function newsletter_print_entries($group) {
                         <small><?php _e('The subscription process in detail', 'newsletter') ?></small></a></li>
                 <li><a href="?page=newsletter_wp_index"><i class="fa fa-wordpress"></i> <?php _e('WP Registration', 'newsletter') ?>
                         <small><?php _e('Subscribe on WP registration', 'newsletter') ?></small></a></li>
-                <li><a href="?page=newsletter_subscription_profile"><i class="fa fa-check-square-o"></i> <?php _e('Subscription Form Fields', 'newsletter') ?>
+                <li><a href="?page=newsletter_subscription_profile"><i class="fa fa-check-square-o"></i> <?php _e('Subscription Form Fields, Buttons, Labels', 'newsletter') ?>
                         <small><?php _e('When and what data to collect', 'newsletter') ?></small></a></li>
                 <li><a href="?page=newsletter_subscription_lists"><i class="fa fa-th-list"></i> <?php _e('Lists', 'newsletter') ?>
                         <small><?php _e('Profile the subscribers for a better targeting', 'newsletter') ?></small></a></li>
@@ -97,6 +98,7 @@ function newsletter_print_entries($group) {
                 ?>
             </ul>
         </li>
+        <li><a href="?page=newsletter_main_status"><i class="fa fa-thermometer"></i> <?php _e('Status', 'newsletter') ?></a></li>
         <?php
         if (empty(Newsletter::instance()->options['contract_key'])) {
             ?>
@@ -108,12 +110,12 @@ function newsletter_print_entries($group) {
             <?php if (empty(Newsletter::instance()->options['licence_expires'])) { ?>
                 <li class="tnp-professional-extensions-button-red">
                     <a href="?page=newsletter_main_main">            
-                        <i class="fa fa-hand-paper-o" style="color: white"></i> <?php _e('Licence expired or not valid', 'newsletter') ?>
+                        <i class="fa fa-hand-paper-o" style="color: white"></i> <?php _e('Licence not valid', 'newsletter') ?>
                     </a>
                 <?php } else { ?>
                     <?php if (Newsletter::instance()->options['licence_expires'] > time()) { ?>
                     <li class="tnp-professional-extensions-button">
-                        <a href="?page=newsletter_main_main">
+                        <a href="?page=newsletter_main_extensions">
                             <i class="fa fa-check-square-o"></i> <?php _e('Licence active', 'newsletter') ?>
                         </a>
                     <?php } elseif (Newsletter::instance()->options['licence_expires'] < time()) { ?>

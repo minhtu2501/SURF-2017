@@ -20,13 +20,13 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'surf2017');
+define('DB_NAME', 'surfstartupwave_main');
 
 /** MySQL database username */
-define('DB_USER', 'root');
+define('DB_USER', 'surfstartupwave');
 
 /** MySQL database password */
-define('DB_PASSWORD', '');
+define('DB_PASSWORD', 'anavugena');
 
 /** MySQL hostname */
 define('DB_HOST', 'localhost');

@@ -241,20 +241,26 @@ if ($email['editor'] == 0) {
         document_base_url: "<?php echo get_option('home'); ?>/",
         content_css: ["<?php echo plugins_url('newsletter') ?>/emails/editor.css", "<?php echo home_url('/') . '?na=emails-css&id=' . $email_id . '&' . time(); ?>"]
     });
+    
+    function tnp_media(name) {
+        var tnp_uploader = wp.media({
+            title: "Select an image",
+            button: {
+                text: "Select"
+            },
+            library: {
+            type: 'image'
+        },
+            displaySettings: true,
+            multiple: false,
+            displayUserSettings: false
+        }).on("select", function() {
+            var media = tnp_uploader.state().get("selection").first();
+            if (media.attributes.url.indexOf("http") !== 0) media.attributes.url = "http:" + media.attributes.url;
+            tinyMCE.execCommand('mceInsertContent', false, '<img src="' + media.attributes.url + '" />');
 
-    jQuery(document).ready(function () {
-        jQuery('#upload_image_button').click(function () {
-            tb_show('', 'media-upload.php?type=image&amp;TB_iframe=true');
-            return false;
-        });
-
-        window.send_to_editor = function (html) {
-            var imgURL = html.match(/src=\"(.*?)\"/);
-            if (imgURL[1].indexOf("http") !== 0) imgURL[1] = "http:" + imgURL[1];
-            tinyMCE.execCommand('mceInsertContent', false, '<img src="' + imgURL[1] + '" />');
-            tb_remove();
-        }
-    });
+        }).open();
+    }
 
     function template_refresh() {
         var d = document.getElementById('options_preview').contentWindow.document;
@@ -315,7 +321,7 @@ if ($email['editor'] == 0) {
 
 
 
-                <input id="upload_image_button" type="button" value="Choose or upload an image" />
+                <input type="button" value="Add media" onclick="tnp_media()">
 
                 <a href="http://www.thenewsletterplugin.com/plugins/newsletter/newsletter-tags" target="_blank"><?php _e('Available tags', 'newsletter') ?></a>
 
