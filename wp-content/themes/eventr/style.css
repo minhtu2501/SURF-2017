@@ -2991,6 +2991,17 @@ footer .footer-top h3 {
 #testimonial-carousel .lead {
   font-size: 18px;
 }
+
+.wpcf7-response-output {
+  clear: both;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+span.wpcf7-not-valid-tip {
+  font-size: 12px;
+  margin-top: -7px;
+  text-align: center;
+}
 /* Blog title*/
 h2.site-description, .entry-title {
   font-family: 'Arial, Helvetica, sans-serif' !important;
